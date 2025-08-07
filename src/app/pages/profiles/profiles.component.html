@@ -1,0 +1,30 @@
+<div class="profiles-container">
+  <div class="profiles-header">
+    <h1>¿Quién está viendo?</h1>
+    <p>Selecciona tu perfil para continuar</p>
+  </div>
+
+  <div class="profiles-grid" *ngIf="!loading">
+    <mat-card
+      *ngFor="let profile of profiles"
+      class="profile-card"
+      (click)="selectProfile(profile)">
+      <mat-card-content>
+        <div class="profile-avatar">
+          <img 
+            *ngIf="profile.urlImageProfile && profile.urlImageProfile.trim()" 
+            [src]="profile.urlImageProfile" 
+            [alt]="profile.nameProfile"
+            class="profile-image">
+          <mat-icon 
+            *ngIf="!profile.urlImageProfile || !profile.urlImageProfile.trim()">account_circle</mat-icon>
+        </div>
+        <h3>{{ profile.nameProfile }}</h3>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <p>Cargando perfiles...</p>
+  </div>
+</div>

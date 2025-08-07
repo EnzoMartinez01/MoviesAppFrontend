@@ -1,0 +1,53 @@
+<div class="settings-container">
+  <div class="settings-header">
+    <h1>{{ translate('settings.title') }}</h1>
+  </div>
+
+  <div class="settings-content">
+    <div class="settings-section">
+      <h3>{{ translate('settings.general') }}</h3>
+      
+      <div class="setting-item">
+        <label>{{ translate('settings.language') }}</label>
+        <select class="setting-select" [(ngModel)]="language" (change)="onLanguageChange()">
+          <option value="es">{{ translate('settings.spanish') }}</option>
+          <option value="en">{{ translate('settings.english') }}</option>
+        </select>
+      </div>
+      
+      <div class="setting-item">
+        <label>{{ translate('settings.theme') }}</label>
+        <select class="setting-select" [(ngModel)]="theme" (change)="onThemeChange()">
+          <option value="dark">{{ translate('settings.dark') }}</option>
+          <option value="light">{{ translate('settings.light') }}</option>
+        </select>
+      </div>
+      
+      <div class="setting-item">
+        <label>{{ translate('settings.notifications') }}</label>
+        <div class="toggle-switch">
+          <input type="checkbox" id="notifications" [(ngModel)]="notifications" (change)="onNotificationsChange()">
+          <label for="notifications" class="toggle-label"></label>
+        </div>
+      </div>
+      
+      <div class="setting-item">
+        <label>{{ translate('settings.autoplay') }}</label>
+        <div class="toggle-switch">
+          <input type="checkbox" id="autoplay" [(ngModel)]="autoplay" (change)="onAutoplayChange()">
+          <label for="autoplay" class="toggle-label"></label>
+        </div>
+      </div>
+      
+      <div class="setting-item">
+        <label>{{ translate('settings.videoQuality') }}</label>
+        <select class="setting-select" [(ngModel)]="videoQuality" (change)="onVideoQualityChange()">
+          <option value="auto">{{ translate('settings.auto') }}</option>
+          <option value="1080p">1080p</option>
+          <option value="720p">720p</option>
+          <option value="480p">480p</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

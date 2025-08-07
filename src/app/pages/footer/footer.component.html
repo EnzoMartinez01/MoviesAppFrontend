@@ -1,0 +1,53 @@
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>MoviesApp</h3>
+      <p>Tu plataforma favorita para descubrir y disfrutar las mejores películas.</p>
+      <div class="social-links">
+        <a href="#" class="social-link">
+          <i class="bi bi-facebook"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="bi bi-instagram"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="bi bi-whatsapp"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-section">
+      <h4>Navegación</h4>
+      <ul>
+        <li><a routerLink="/home">Inicio</a></li>
+        <li><a routerLink="/movies">Películas</a></li>
+        <li><a routerLink="/search">Buscar</a></li>
+        <li><a routerLink="/profile">Mi Perfil</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>Géneros</h4>
+      <ul>
+        <li><a routerLink="/movies" [queryParams]="{genre: '1'}">Acción</a></li>
+        <li><a routerLink="/movies" [queryParams]="{genre: '4'}">Comedia</a></li>
+        <li><a routerLink="/movies" [queryParams]="{genre: '5'}">Ciencia Ficción</a></li>
+        <li><a routerLink="/movies" [queryParams]="{genre: '6'}">Anime</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>Soporte</h4>
+      <ul>
+        <li><a href="#">Centro de Ayuda</a></li>
+        <li><a href="#">Contacto</a></li>
+        <li><a href="#">Términos de Uso</a></li>
+        <li><a href="#">Privacidad</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2024 MoviesApp. Todos los derechos reservados.</p>
+  </div>
+</footer>

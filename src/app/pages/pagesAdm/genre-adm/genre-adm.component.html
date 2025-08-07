@@ -1,0 +1,135 @@
+<div class="genres-adm-container">
+  <div class="breadcrumb-section">
+    <span class="breadcrumb">
+      <span class="breadcrumb-link" (click)="goToAdmin()">Administrativo</span> / Géneros
+    </span>
+  </div>
+  
+  <div class="header-section">
+    <h1>Gestión de Géneros</h1>
+    <button mat-raised-button color="primary" class="add-button" (click)="openAddDialog()">
+      <mat-icon>add</mat-icon>
+      Agregar Género
+    </button>
+  </div>
+
+  <div class="search-section">
+    <div class="search-container">
+      <mat-icon class="search-icon">search</mat-icon>
+      <input 
+        type="text" 
+        placeholder="Buscar géneros..." 
+        [(ngModel)]="searchTerm" 
+        (input)="filterGenres()"
+        class="search-input">
+    </div>
+  </div>
+
+  <div class="genres-table">
+    <div class="table-wrapper">
+      <div class="table-container">
+        <ng-container *ngFor="let genre of filteredGenres">
+          <!-- Fila del género -->
+          <div class="genre-row">
+            <div class="genre-cell id-cell">{{ genre.idGenre }}</div>
+            <div class="genre-cell name-cell">{{ genre.genreName }}</div>
+            <div class="genre-cell actions-cell">
+              <div class="action-buttons">
+                <button mat-icon-button color="primary" (click)="editGenre(genre)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" (click)="viewGenreDetail(genre)">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    
+    <div class="pagination-container">
+      <div class="pagination-info">
+        <span>Mostrando {{ (currentPage * pageSize) + 1 }} - {{ Math.min((currentPage + 1) * pageSize, totalElements) }} de {{ totalElements }} géneros</span>
+      </div>
+      <div class="pagination-controls">
+        <button mat-icon-button [disabled]="currentPage === 0" (click)="previousPage()">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <span class="page-info">{{ currentPage + 1 }} / {{ totalPages }}</span>
+        <button mat-icon-button [disabled]="currentPage >= totalPages - 1" (click)="nextPage()">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de detalle de género -->
+  <div *ngIf="showDetailModal" class="modal-overlay" (click)="closeDetailModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Detalle de Género</h2>
+        <button mat-icon-button (click)="closeDetailModal()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      
+      <div class="modal-body" *ngIf="selectedGenre">
+        <div class="genre-detail-card">
+          <div class="genre-detail-info">
+            <h3>{{ selectedGenre.genreName }}</h3>
+            <p><strong>Nombre:</strong> {{ selectedGenre.genreName }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de edición de género -->
+  <div *ngIf="showEditModal" class="modal-overlay" (click)="closeEditModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Editar Género</h2>
+        <button mat-icon-button (click)="closeEditModal()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      
+      <div class="modal-body" *ngIf="editingGenre">
+        <div class="form-row">
+          <label>Nombre del Género:</label>
+          <input [(ngModel)]="editingGenre.genreName" class="form-input">
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button mat-button (click)="closeEditModal()">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="saveGenre()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de agregar género -->
+  <div *ngIf="showAddModal" class="modal-overlay" (click)="closeAddModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Agregar Género</h2>
+        <button mat-icon-button (click)="closeAddModal()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-row">
+          <label>Nombre del Género: *</label>
+          <input [(ngModel)]="newGenre.genreName" class="form-input" required>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button mat-button (click)="closeAddModal()">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="addGenre()">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>

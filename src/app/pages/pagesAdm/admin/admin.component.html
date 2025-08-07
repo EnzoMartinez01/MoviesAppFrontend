@@ -1,0 +1,32 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <h1>{{ translate('admin.title') }}</h1>
+    <p>{{ translate('admin.subtitle') }}</p>
+  </div>
+
+  <div class="admin-grid">
+    <div class="admin-card" (click)="navigateTo('/admin/movies')">
+      <mat-icon>movie</mat-icon>
+      <h3>{{ translate('admin.movies') }}</h3>
+      <p>{{ translate('admin.moviesDesc') }}</p>
+    </div>
+
+    <div class="admin-card" (click)="navigateTo('/admin/users')">
+      <mat-icon>people</mat-icon>
+      <h3>{{ translate('admin.users') }}</h3>
+      <p>{{ translate('admin.usersDesc') }}</p>
+    </div>
+
+    <div class="admin-card" (click)="navigateTo('/admin/reviews')">
+      <mat-icon>star_rate</mat-icon>
+      <h3>{{ translate('admin.reviews') }}</h3>
+      <p>{{ translate('admin.reviewsDesc') }}</p>
+    </div>
+
+    <div class="admin-card" (click)="navigateTo('/admin/genres')">
+      <mat-icon>category</mat-icon>
+      <h3>{{ translate('admin.genres') }}</h3>
+      <p>{{ translate('admin.genresDesc') }}</p>
+    </div>
+  </div>
+</div>

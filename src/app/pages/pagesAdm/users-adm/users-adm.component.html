@@ -1,0 +1,269 @@
+<div class="users-adm-container">
+  <div class="breadcrumb-section">
+    <span class="breadcrumb">
+      <span class="breadcrumb-link" (click)="goToAdmin()">Administrativo</span> / Users
+    </span>
+  </div>
+  
+  <div class="header-section">
+    <h1>Gestión de Usuarios</h1>
+    <button mat-raised-button color="primary" class="add-button" (click)="openAddDialog()">
+      <mat-icon>add</mat-icon>
+      Agregar Usuario
+    </button>
+  </div>
+
+  <div class="search-section">
+    <div class="search-container">
+      <mat-icon class="search-icon">search</mat-icon>
+      <input
+        type="text"
+        placeholder="Buscar usuarios..."
+        [(ngModel)]="searchTerm"
+        (input)="filterUsers()"
+        class="search-input">
+    </div>
+  </div>
+
+  <div class="users-table">
+    <div class="table-wrapper">
+      <div class="table-container">
+        <ng-container *ngFor="let user of filteredUsers">
+          <!-- Fila del usuario -->
+          <div class="user-row">
+            <div class="user-cell name-cell">{{ user.fullName }}</div>
+            <div class="user-cell email-cell">{{ user.email }}</div>
+            <div class="user-cell role-cell">
+              <span class="role-badge user">{{ user.roleName}}</span>
+            </div>
+            <div class="user-cell status-cell">
+              <span class="status-badge" [class]="user.isActive ? 'active' : 'inactive'">
+                {{ user.isActive ? 'ACTIVE' : 'INACTIVE' }}
+              </span>
+            </div>
+            <div class="user-cell actions-cell">
+              <div class="action-buttons">
+                <button mat-icon-button color="primary" (click)="editUser(user)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" (click)="viewUserDetail(user)">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteUser(user)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="pagination-container">
+      <div class="pagination-info">
+        <span>Mostrando {{ (currentPage * pageSize) + 1 }} - {{ Math.min((currentPage + 1) * pageSize, totalElements) }} de {{ totalElements }} usuarios</span>
+      </div>
+      <div class="pagination-controls">
+        <button mat-icon-button [disabled]="currentPage === 0" (click)="previousPage()">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <span class="page-info">{{ currentPage + 1 }} / {{ totalPages }}</span>
+        <button mat-icon-button [disabled]="currentPage >= totalPages - 1" (click)="nextPage()">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de detalle de usuario -->
+  <div *ngIf="showDetailModal" class="modal-overlay" (click)="closeDetailModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Detalle de Usuario</h2>
+        <button mat-icon-button (click)="closeDetailModal()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      
+      <div class="modal-body" *ngIf="selectedUser">
+        <div class="detail-section">
+          <h3>Información Personal</h3>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <label>Nombre Completo:</label>
+              <span>{{ selectedUser.fullName }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Nombres:</label>
+              <span>{{ selectedUser.names }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Apellidos:</label>
+              <span>{{ selectedUser.lastnames }}</span>
+            </div>
+            <div class="detail-item">
+              <label>DNI:</label>
+              <span>{{ selectedUser.dni }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Teléfono:</label>
+              <span>{{ selectedUser.telephone }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Fecha de Nacimiento:</label>
+              <span>{{ selectedUser.birthDate }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="detail-section">
+          <h3>Información de Cuenta</h3>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <label>Email:</label>
+              <span>{{ selectedUser.email }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Usuario:</label>
+              <span>{{ selectedUser.username }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Estado:</label>
+              <span class="status-badge" [class]="selectedUser.isActive ? 'active' : 'inactive'">
+                {{ selectedUser.isActive ? 'ACTIVE' : 'INACTIVE' }}
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="detail-section" *ngIf="selectedUser.profiles?.length > 0">
+          <h3>Perfiles ({{ selectedUser.profiles.length }})</h3>
+          <div class="profiles-grid">
+            <div *ngFor="let profile of selectedUser.profiles" class="profile-card">
+              <img [src]="profile.urlImageProfile || '/assets/default-avatar.png'" [alt]="profile.nameProfile" class="profile-image">
+              <div class="profile-details">
+                <h4>{{ profile.nameProfile }}</h4>
+                <span class="profile-id">ID: {{ profile.profileId }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+    </div>
+  </div>
+
+  <!-- Modal de edición de usuario -->
+  <div *ngIf="showEditModal" class="modal-overlay" (click)="closeEditModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Editar Usuario</h2>
+        <button mat-icon-button (click)="closeEditModal()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      
+      <div class="modal-body" *ngIf="editingUser">
+        <div class="form-row">
+          <label>Nombres:</label>
+          <input [(ngModel)]="editingUser.names" class="form-input">
+        </div>
+        
+        <div class="form-row">
+          <label>Apellidos:</label>
+          <input [(ngModel)]="editingUser.lastnames" class="form-input">
+        </div>
+        
+        <div class="form-row">
+          <label>DNI:</label>
+          <input [(ngModel)]="editingUser.dni" class="form-input">
+        </div>
+        
+        <div class="form-row">
+          <label>Teléfono:</label>
+          <input [(ngModel)]="editingUser.telephone" class="form-input">
+        </div>
+        
+        <div class="form-row">
+          <label>Fecha de Nacimiento:</label>
+          <input type="date" [(ngModel)]="editingUser.birthDate" class="form-input">
+        </div>
+        
+        <div class="form-row">
+          <label>Email:</label>
+          <input type="email" [(ngModel)]="editingUser.email" class="form-input">
+        </div>
+        
+        <div class="form-row">
+          <label>Usuario:</label>
+          <input [(ngModel)]="editingUser.username" class="form-input">
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button mat-button (click)="closeEditModal()">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="saveUser()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de agregar usuario -->
+  <div *ngIf="showAddModal" class="modal-overlay" (click)="closeAddModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Agregar Usuario</h2>
+        <button mat-icon-button (click)="closeAddModal()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-row">
+          <label>Nombres: *</label>
+          <input [(ngModel)]="newUser.names" class="form-input" required>
+        </div>
+        
+        <div class="form-row">
+          <label>Apellidos: *</label>
+          <input [(ngModel)]="newUser.lastnames" class="form-input" required>
+        </div>
+        
+        <div class="form-row">
+          <label>DNI:</label>
+          <input [(ngModel)]="newUser.dni" class="form-input">
+        </div>
+        
+        <div class="form-row">
+          <label>Teléfono:</label>
+          <input [(ngModel)]="newUser.telephone" class="form-input">
+        </div>
+        
+        <div class="form-row">
+          <label>Fecha de Nacimiento:</label>
+          <input type="date" [(ngModel)]="newUser.birthDate" class="form-input">
+        </div>
+        
+        <div class="form-row">
+          <label>Email: *</label>
+          <input type="email" [(ngModel)]="newUser.email" class="form-input" required>
+        </div>
+        
+        <div class="form-row">
+          <label>Usuario: *</label>
+          <input [(ngModel)]="newUser.username" class="form-input" required>
+        </div>
+        
+        <div class="form-row">
+          <label>Contraseña: *</label>
+          <input type="password" [(ngModel)]="newUser.password" class="form-input" required>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button mat-button (click)="closeAddModal()">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="addUser()">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>

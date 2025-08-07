@@ -1,0 +1,63 @@
+
+<div class="movie-section">
+  <h2 class="section-title">{{ translate('home.popularMovies') }}</h2>
+
+  <div class="movie-carousel">
+  <a
+    *ngFor="let movie of movies"
+    [routerLink]="['/movie', movie.idMovie]"
+    class="movie-card-link"
+  >
+    <div class="movie-card">
+      <img
+        [src]="movie.movieImage"
+        [alt]="movie.titleMovie"
+        class="movie-image"
+      />
+      <div class="movie-overlay">
+        <div class="play-icon">
+          <mat-icon>play_arrow</mat-icon>
+        </div>
+        <div class="movie-title">{{ movie.titleMovie }}</div>
+      </div>
+    </div>
+  </a>
+</div>
+
+
+</div>
+
+<div class="movie-section" *ngFor="let genre of genres">
+  <h2 class="section-title">Películas de {{ genre.genreName }}</h2>
+
+  <div class="movie-carousel" *ngIf="moviesByGenre[genre.idGenre]?.length; else noMovies">
+    <a
+      *ngFor="let movie of moviesByGenre[genre.idGenre]!"
+      [routerLink]="['/movie', movie.idMovie]"
+      class="movie-card-link"
+    >
+      <div class="movie-card">
+        <img
+          [src]="movie.movieImage"
+          [alt]="movie.titleMovie"
+          class="movie-image"
+        />
+        <div class="movie-overlay">
+          <div class="play-icon">
+            <mat-icon>play_arrow</mat-icon>
+          </div>
+          <div class="movie-title">{{ movie.titleMovie }}</div>
+        </div>
+      </div>
+    </a>
+
+    <!-- Botón estético -->
+    <div class="see-more">
+      <button mat-raised-button color="primary" (click)="goToMoviesWithGenre(genre.idGenre)">{{ translate('home.seeMore') }}</button>
+    </div>
+  </div>
+
+  <ng-template #noMovies>
+    <p class="no-movies">{{ translate('movies.noMovies') }}</p>
+  </ng-template>
+</div>
