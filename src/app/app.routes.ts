@@ -12,6 +12,10 @@ import {UsersAdmComponent} from './pages/pagesAdm/users-adm/users-adm.component'
 import {GenreAdmComponent} from './pages/pagesAdm/genre-adm/genre-adm.component';
 import {ReviewsAdmComponent} from './pages/pagesAdm/reviews-adm/reviews-adm.component';
 import {SettingsComponent} from './pages/settings/settings.component';
+import {HelpCenterComponent} from './pages/help-center/help-center.component';
+import {ContactComponent} from './pages/contact/contact.component';
+import {TermsComponent} from './pages/terms/terms.component';
+import {PrivacyComponent} from './pages/privacy/privacy.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -28,5 +32,9 @@ export const routes: Routes = [
   { path: 'admin/users', component: UsersAdmComponent},
   { path: 'admin/reviews', component: ReviewsAdmComponent},
   { path: 'admin/genres', component: GenreAdmComponent},
+  { path: 'help-center', component: HelpCenterComponent},
+  { path: 'contact', component: ContactComponent},
+  { path: 'terms', component: TermsComponent},
+  { path: 'privacy', component: PrivacyComponent},
   { path: '**', redirectTo: 'home' }
 ];
