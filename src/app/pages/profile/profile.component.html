@@ -1,0 +1,83 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <h1>Mi Perfil</h1>
+  </div>
+
+  <div class="profile-content">
+    <div class="profile-info">
+      <div class="avatar-section">
+        <img 
+          *ngIf="activeProfile?.urlImageProfile && activeProfile.urlImageProfile.trim()" 
+          [src]="activeProfile.urlImageProfile" 
+          [alt]="activeProfile.nameProfile"
+          class="profile-avatar">
+        <div 
+          *ngIf="!activeProfile?.urlImageProfile || !activeProfile.urlImageProfile.trim()" 
+          class="default-avatar">
+          <mat-icon>account_circle</mat-icon>
+        </div>
+        <h2>{{ activeProfile?.nameProfile || 'Usuario' }}</h2>
+      </div>
+    </div>
+
+    <div class="profile-tabs">
+      <div class="tab-buttons">
+        <button 
+          class="tab-button" 
+          [class.active]="activeTab === 'watchlists'" 
+          (click)="setActiveTab('watchlists')">
+          <mat-icon>playlist_play</mat-icon>
+          Mis Watchlists
+        </button>
+        <button 
+          class="tab-button" 
+          [class.active]="activeTab === 'reviews'" 
+          (click)="setActiveTab('reviews')">
+          <mat-icon>rate_review</mat-icon>
+          Mis Reseñas
+        </button>
+      </div>
+
+      <div class="tab-content">
+        <div *ngIf="activeTab === 'watchlists'" class="watchlists-tab">
+          <div *ngIf="watchlists.length === 0" class="empty-state">
+            <mat-icon>playlist_add</mat-icon>
+            <p>No tienes watchlists creadas</p>
+          </div>
+          <div *ngFor="let watchlist of watchlists" class="watchlist-card">
+            <h3>{{ watchlist.listName }}</h3>
+            <p>{{ watchlist.movies?.length || 0 }} películas</p>
+            <div class="movie-grid" *ngIf="watchlist.movies?.length > 0">
+              <div *ngFor="let movie of watchlist.movies.slice(0, 4)" class="movie-poster" (click)="goToMovie(movie.idMovie)">
+                <img [src]="movie.movieImage" [alt]="movie.titleMovie">
+                <div class="movie-overlay">
+                  <mat-icon>play_arrow</mat-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="activeTab === 'reviews'" class="reviews-tab">
+          <div *ngIf="reviews.length === 0" class="empty-state">
+            <mat-icon>rate_review</mat-icon>
+            <p>No has escrito reseñas</p>
+          </div>
+          <div *ngFor="let review of reviews" class="review-card">
+            <div class="review-header">
+              <h3 class="movie-title-link" (click)="goToMovie(review.idMovie)">{{ review.titleName }}</h3>
+              <div class="rating-stars">
+                <mat-icon *ngFor="let star of [1,2,3,4,5]" 
+                          [class]="star <= review.rating ? 'star-filled' : 'star-empty'">
+                  star
+                </mat-icon>
+              </div>
+            </div>
+            <p class="review-comment">{{ review.comment }}</p>
+            <span class="review-date">{{ review.createDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

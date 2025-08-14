@@ -1,0 +1,104 @@
+<div class="reviews-adm-container">
+  <div class="breadcrumb-section">
+    <span class="breadcrumb">
+      <span class="breadcrumb-link" (click)="goToAdmin()">Administrativo</span> / Reviews
+    </span>
+  </div>
+  
+  <div class="header-section">
+    <h1>Gestión de Reseñas</h1>
+  </div>
+
+  <div class="search-section">
+    <div class="search-container">
+      <mat-icon class="search-icon">search</mat-icon>
+      <input 
+        type="text" 
+        placeholder="Buscar reseñas..." 
+        [(ngModel)]="searchTerm" 
+        (input)="filterReviews()"
+        class="search-input">
+    </div>
+  </div>
+
+  <div class="reviews-table">
+    <div class="table-wrapper">
+      <div class="table-container">
+        <ng-container *ngFor="let review of filteredReviews">
+          <!-- Fila de la reseña -->
+          <div class="review-row">
+            <div class="review-cell rating-cell">
+              <div class="rating-stars">
+                <mat-icon *ngFor="let star of [1,2,3,4,5]" 
+                          [class]="star <= review.rating ? 'star-filled' : 'star-empty'">
+                  star
+                </mat-icon>
+              </div>
+            </div>
+            <div class="review-cell movie-cell">{{ review.titleName }}</div>
+            <div class="review-cell user-cell">{{ review.fullname }}</div>
+            <div class="review-cell date-cell">{{ review.createDate | date:'dd/MM/yyyy' }}</div>
+            <div class="review-cell actions-cell">
+              <div class="action-buttons">
+                <button mat-icon-button color="primary" (click)="viewReviewDetail(review)">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteReview(review)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    
+    <div class="pagination-container">
+      <div class="pagination-info">
+        <span>Mostrando {{ (currentPage * pageSize) + 1 }} - {{ Math.min((currentPage + 1) * pageSize, totalElements) }} de {{ totalElements }} reseñas</span>
+      </div>
+      <div class="pagination-controls">
+        <button mat-icon-button [disabled]="currentPage === 0" (click)="previousPage()">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <span class="page-info">{{ currentPage + 1 }} / {{ totalPages }}</span>
+        <button mat-icon-button [disabled]="currentPage >= totalPages - 1" (click)="nextPage()">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de detalle de reseña -->
+  <div *ngIf="showDetailModal" class="modal-overlay" (click)="closeDetailModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Detalle de Reseña</h2>
+        <button mat-icon-button (click)="closeDetailModal()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      
+      <div class="modal-body" *ngIf="selectedReview">
+        <div class="review-detail-card">
+          <div class="review-detail-info">
+            <h3>{{ selectedReview.titleName }}</h3>
+            <div class="rating-display">
+              <mat-icon *ngFor="let star of [1,2,3,4,5]" 
+                        [class]="star <= selectedReview.rating ? 'star-filled' : 'star-empty'">
+                star
+              </mat-icon>
+              <span class="rating-text">{{ selectedReview.rating }}/5</span>
+            </div>
+            <p><strong>Usuario:</strong> {{ selectedReview.fullname }} ({{ selectedReview.username }})</p>
+            <p><strong>Fecha:</strong> {{ selectedReview.createDate | date:'dd/MM/yyyy HH:mm' }}</p>
+            <p><strong>Comentario:</strong></p>
+            <div class="comment-box">{{ selectedReview.comment }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

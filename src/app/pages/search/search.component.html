@@ -1,0 +1,38 @@
+<div class="search-container">
+  <div class="search-header">
+    <h2 class="section-title">Buscar Películas</h2>
+    <div class="search-input-container">
+      <mat-icon class="search-icon">search</mat-icon>
+      <input 
+        type="text" 
+        placeholder="Buscar películas..." 
+        [(ngModel)]="searchTerm" 
+        (keyup)="onSearch()" 
+        class="search-input">
+    </div>
+    <h3 class="results-title" *ngIf="searchQuery">Resultados para: "{{ searchQuery }}"</h3>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <p>Buscando películas...</p>
+  </div>
+
+  <div *ngIf="noResults && !loading" class="no-results">
+    <p>No se encontraron películas que coincidan con tu búsqueda.</p>
+  </div>
+
+  <div *ngIf="movies.length > 0 && !loading" class="movies-grid">
+    <a *ngFor="let movie of movies" [routerLink]="['/movie', movie.idMovie]" class="movie-card-link">
+      <div class="movie-card">
+        <img [src]="movie.movieImage" [alt]="movie.titleMovie" class="movie-image">
+        <div class="movie-overlay">
+          <div class="play-icon">
+            <mat-icon>play_arrow</mat-icon>
+          </div>
+          <div class="movie-title">{{ movie.titleMovie }}</div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

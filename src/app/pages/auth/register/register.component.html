@@ -1,0 +1,125 @@
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <h1>Crear Cuenta</h1>
+      <p>Únete a MoviesApp y descubre tu próxima película favorita</p>
+    </div>
+
+    <form class="register-form" (ngSubmit)="onRegister()" #registerForm="ngForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombres</label>
+          <input 
+            type="text" 
+            [(ngModel)]="registerData.names" 
+            name="names" 
+            placeholder="Tus nombres"
+            required>
+        </div>
+        <div class="form-group">
+          <label>Apellidos</label>
+          <input 
+            type="text" 
+            [(ngModel)]="registerData.lastnames" 
+            name="lastnames" 
+            placeholder="Tus apellidos"
+            required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>DNI</label>
+          <input 
+            type="text" 
+            [(ngModel)]="registerData.dni" 
+            name="dni" 
+            placeholder="12345678"
+            required>
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input 
+            type="tel" 
+            [(ngModel)]="registerData.telephone" 
+            name="telephone" 
+            placeholder="987654321"
+            required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Usuario</label>
+        <input 
+          type="text" 
+          [(ngModel)]="registerData.username" 
+          name="username" 
+          placeholder="Tu nombre de usuario"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input 
+          type="email" 
+          [(ngModel)]="registerData.email" 
+          name="email" 
+          placeholder="tu&#64;email.com"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label>Fecha de Nacimiento</label>
+        <input 
+          type="date" 
+          [(ngModel)]="registerData.birthDate" 
+          name="birthDate" 
+          required>
+      </div>
+
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input 
+          type="password" 
+          [(ngModel)]="registerData.password" 
+          name="password" 
+          placeholder="Mínimo 6 caracteres"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label>Confirmar Contraseña</label>
+        <input 
+          type="password" 
+          [(ngModel)]="confirmPassword" 
+          name="confirmPassword" 
+          placeholder="Repite tu contraseña"
+          required>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="acceptTerms" 
+            name="acceptTerms" 
+            required>
+          <span class="checkmark"></span>
+          Acepto los <a routerLink="/terms">Términos de Uso</a> y la <a routerLink="/privacy">Política de Privacidad</a>
+        </label>
+      </div>
+
+      <button 
+        type="submit" 
+        class="register-btn" 
+        [disabled]="!registerForm.valid || !acceptTerms || loading">
+        <span *ngIf="!loading">Crear Cuenta</span>
+        <span *ngIf="loading">Creando cuenta...</span>
+      </button>
+    </form>
+
+    <div class="register-footer">
+      <p>¿Ya tienes cuenta? <a routerLink="/login">Inicia Sesión</a></p>
+    </div>
+  </div>
+</div>

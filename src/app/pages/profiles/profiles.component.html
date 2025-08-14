@@ -1,0 +1,75 @@
+<div class="profiles-container">
+  <div class="profiles-header">
+    <h1>¿Quién está viendo?</h1>
+    <p>Selecciona tu perfil para continuar</p>
+  </div>
+
+  <div class="profiles-grid" *ngIf="!loading">
+    <mat-card
+      *ngFor="let profile of profiles"
+      class="profile-card"
+      (click)="selectProfile(profile)">
+      <mat-card-content>
+        <div class="profile-avatar">
+          <img
+            *ngIf="profile.urlImageProfile && profile.urlImageProfile.trim()"
+            [src]="profile.urlImageProfile"
+            [alt]="profile.nameProfile"
+            class="profile-image">
+          <mat-icon
+            *ngIf="!profile.urlImageProfile || !profile.urlImageProfile.trim()">account_circle</mat-icon>
+        </div>
+        <h3>{{ profile.nameProfile }}</h3>
+      </mat-card-content>
+    </mat-card>
+    <mat-card
+      class="profile-card add-profile-card"
+      *ngIf="profiles.length < 4 && !loading"
+      (click)="openCreateProfileModal()">
+      <mat-card-content>
+        <div class="profile-avatar">
+          <mat-icon>add_circle_outline</mat-icon>
+        </div>
+        <h3>Agregar perfil</h3>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <p>Cargando perfiles...</p>
+  </div>
+</div>
+
+<!-- Modal backdrop -->
+<div class="modal-backdrop" *ngIf="showCreateModal" (click)="closeCreateModal()"></div>
+
+<!-- Modal contenido -->
+<div class="profile-modal" *ngIf="showCreateModal">
+  <div class="profile-modal-header">
+    <h2>Crear Perfil</h2>
+    <button mat-icon-button (click)="closeCreateModal()" aria-label="Cerrar">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="profile-modal-body">
+    <div class="custom-input-group">
+      <label for="profile-name">Nombre del perfil</label>
+      <input id="profile-name" type="text" [(ngModel)]="newProfile.names" />
+    </div>
+
+    <div class="custom-input-group">
+      <label for="profile-img">URL de imagen (opcional)</label>
+      <input id="profile-img" type="text" [(ngModel)]="newProfile.urlImage" />
+    </div>
+  </div>
+
+  <div class="profile-modal-actions">
+    <button mat-button class="cancel-button" (click)="closeCreateModal()" [disabled]="creating">
+      Cancelar
+    </button>
+    <button mat-raised-button class="save-button" (click)="createProfile()" [disabled]="creating">
+      Crear
+    </button>
+  </div>
+</div>

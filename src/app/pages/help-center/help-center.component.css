@@ -1,0 +1,84 @@
+.help-container {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  padding: 100px 40px 40px;
+  color: var(--text-primary);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.help-container h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.help-section {
+  margin-bottom: 40px;
+}
+
+.help-section h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #b20202;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #b20202;
+  padding-bottom: 10px;
+}
+
+.faq-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.faq-item h3 {
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.faq-item p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.help-section p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+.help-section a {
+  color: #b20202;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.help-section a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .help-container {
+    padding: 80px 20px 40px;
+  }
+  
+  .help-container h1 {
+    font-size: 2rem;
+  }
+  
+  .help-section h2 {
+    font-size: 1.5rem;
+  }
+  
+  .faq-item {
+    padding: 20px;
+  }
+}

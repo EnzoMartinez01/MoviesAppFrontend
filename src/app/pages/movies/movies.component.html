@@ -1,0 +1,60 @@
+<div class="movies-container">
+  <div class="movies-header">
+    <h2 class="section-title">{{ translate('movies.allMovies') }}</h2>
+  </div>
+
+  <div class="genres-section" *ngIf="genres.length > 0">
+    <h3 class="genres-title">{{ translate('movies.genres') }}:</h3>
+    <div class="genres-list">
+      <span
+        class="genre-item"
+        [class.active]="selectedGenre === null"
+        (click)="onGenreSelect(null)">
+        {{ translate('common.all') }}
+      </span>
+      <span
+        *ngFor="let genre of genres"
+        class="genre-item"
+        [class.active]="selectedGenre === genre.idGenre"
+        (click)="onGenreSelect(genre.idGenre)">
+        {{ genre.genreName }}
+      </span>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <p>{{ translate('movies.loading') }}</p>
+  </div>
+
+  <div *ngIf="!loading && movies.length > 0" class="movies-content">
+    <div class="movies-grid">
+      <a *ngFor="let movie of movies" [routerLink]="['/movie', movie.idMovie]" class="movie-card-link">
+        <div class="movie-card">
+          <img [src]="movie.movieImage" [alt]="movie.titleMovie" class="movie-image">
+          <div class="movie-overlay">
+            <div class="play-icon">
+              <mat-icon>play_arrow</mat-icon>
+            </div>
+            <div class="movie-title">{{ movie.titleMovie }}</div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="pagination-container">
+      <mat-paginator
+        [length]="totalElements"
+        [pageSize]="pageSize"
+        [pageIndex]="currentPage"
+        [pageSizeOptions]="[14, 28, 42]"
+        (page)="onPageChange($event)"
+        showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && movies.length === 0" class="no-movies">
+    <p>{{ translate('movies.noMovies') }}</p>
+  </div>
+</div>

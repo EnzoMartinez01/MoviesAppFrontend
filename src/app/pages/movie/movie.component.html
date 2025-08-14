@@ -1,0 +1,185 @@
+<div *ngIf="movie" class="movie-detail">
+  <div class="hero-section" [style.background-image]="'url(' + movie.movieImage + ')'">
+    <div class="hero-overlay">
+      <div class="movie-info">
+        <h1 class="movie-title">{{ movie.titleMovie }}</h1>
+
+        <div class="movie-meta">
+          <span class="year">{{ movie.releaseDate }}</span>
+          <span class="rating">{{ movie.pg }}</span>
+          <span class="duration">{{ movie.duration }} min</span>
+          <span class="language">{{ movie.language }}</span>
+        </div>
+
+        <mat-chip-set class="genre-chip">
+          <mat-chip>{{ movie.genreName }}</mat-chip>
+        </mat-chip-set>
+
+        <p class="synopsis">{{ movie.synopsisMovie }}</p>
+
+        <div class="action-buttons">
+          <button mat-raised-button color="primary" class="play-button" (click)="openMovie()" [disabled]="!movie.movieUrl">
+            <mat-icon>play_arrow</mat-icon>
+            Reproducir
+          </button>
+
+          <button mat-raised-button class="trailer-button" (click)="openTrailer()" [disabled]="!movie.urlTrailer">
+            <mat-icon>movie</mat-icon>
+            Tráiler
+          </button>
+
+          <button mat-icon-button class="watchlist-button" (click)="openWatchlistModal()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal del trailer -->
+  <div *ngIf="showTrailer" class="trailer-modal" (click)="closeTrailer()">
+    <div class="trailer-container" (click)="$event.stopPropagation()">
+      <button mat-icon-button class="close-button" (click)="closeTrailer()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <iframe
+        [src]="safeTrailerUrl"
+        frameborder="0"
+        allowfullscreen
+        class="trailer-video">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- Modal de la película -->
+  <div *ngIf="showMovie" class="trailer-modal" (click)="closeMovie()">
+    <div class="trailer-container" (click)="$event.stopPropagation()">
+      <button mat-icon-button class="close-button" (click)="closeMovie()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <iframe
+        [src]="safeMovieUrl"
+        frameborder="0"
+        allowfullscreen
+        class="trailer-video">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- Modal de Reseña -->
+  <div *ngIf="showReviewModal" class="review-modal" (click)="closeReviewModal()">
+    <div class="review-modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Escribir Reseña</h2>
+        <button mat-icon-button (click)="closeReviewModal()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="rating-section">
+          <label>Calificación:</label>
+          <div class="rating-input">
+            <mat-icon *ngFor="let star of [1,2,3,4,5]" 
+                      [class]="star <= newReview.rating ? 'star-filled' : 'star-empty'"
+                      (click)="setRating(star)">
+              star
+            </mat-icon>
+          </div>
+        </div>
+        
+        <div class="comment-section">
+          <label>Comentario:</label>
+          <textarea 
+            [(ngModel)]="newReview.comment" 
+            placeholder="Escribe tu reseña..."
+            class="review-textarea"></textarea>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button mat-button (click)="closeReviewModal()">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="submitReview()" [disabled]="!newReview.rating || !newReview.comment.trim()">
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Watchlist -->
+  <div *ngIf="showWatchlistModal" class="watchlist-modal" (click)="closeWatchlistModal()">
+    <div class="watchlist-container" (click)="$event.stopPropagation()">
+      <div class="watchlist-header">
+        <h2>Agregar a Watchlist</h2>
+        <button mat-icon-button class="close-button" (click)="closeWatchlistModal()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      
+      <div class="watchlist-content">
+        <div *ngIf="watchlists.length > 0" class="existing-watchlists">
+          <h3>Selecciona una watchlist:</h3>
+          <div class="watchlist-list">
+            <div *ngFor="let watchlist of watchlists" class="watchlist-item" (click)="addToWatchlist(watchlist.idWatchlist)">
+              <mat-icon>playlist_add</mat-icon>
+              <span>{{ watchlist.listName }}</span>
+              <span class="movie-count">({{ watchlist.movies?.length || 0 }} películas)</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="create-new-section">
+          <h3>{{ watchlists.length > 0 ? 'O crear una nueva:' : 'Crear tu primera watchlist:' }}</h3>
+          <div class="create-form">
+            <input 
+              type="text" 
+              placeholder="Nombre de la watchlist" 
+              [(ngModel)]="newWatchlistName" 
+              class="watchlist-input">
+            <button 
+              mat-raised-button 
+              color="primary" 
+              (click)="createAndAddToWatchlist()" 
+              [disabled]="!newWatchlistName.trim()">
+              Crear y Agregar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección de Reseñas -->
+  <div class="reviews-section">
+    <div class="reviews-header">
+      <h2>Reseñas</h2>
+      <button mat-raised-button color="primary" class="add-review-btn" (click)="openReviewModal()">
+        <mat-icon>rate_review</mat-icon>
+        Escribir Reseña
+      </button>
+    </div>
+
+    <div class="reviews-list">
+      <div *ngIf="movieReviews.length === 0" class="no-reviews">
+        <mat-icon>rate_review</mat-icon>
+        <p>No hay reseñas para esta película</p>
+      </div>
+      
+      <div *ngFor="let review of movieReviews" class="review-item">
+        <div class="review-header">
+          <div class="user-info">
+            <strong>{{ review.fullname }}</strong>
+            <span class="review-date">{{ review.createDate | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="rating-stars">
+            <mat-icon *ngFor="let star of [1,2,3,4,5]" 
+                      [class]="star <= review.rating ? 'star-filled' : 'star-empty'">
+              star
+            </mat-icon>
+          </div>
+        </div>
+        <p class="review-comment">{{ review.comment }}</p>
+      </div>
+    </div>
+  </div>
+</div>

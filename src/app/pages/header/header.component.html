@@ -1,0 +1,69 @@
+<div class="layout-container">
+  <mat-toolbar class="prime-header">
+    <div class="header-left">
+      <span class="logo" [routerLink]="['/home']">Movies App</span>
+
+      <nav class="nav-menu">
+        <button mat-button [routerLink]="['/home']" class="nav-item">{{ translate('header.home') }}</button>
+        <button mat-button [routerLink]="['/movies']" class="nav-item">{{ translate('header.movies') }}</button>
+      </nav>
+    </div>
+
+    <div class="header-right">
+      <div class="search-container" [class.search-active]="showSearchInput">
+        <mat-form-field *ngIf="showSearchInput" appearance="outline" class="search-field">
+          <input matInput [placeholder]="translate('header.search')" [(ngModel)]="searchQuery" (keyup.enter)="performSearch()">
+        </mat-form-field>
+        <button mat-icon-button class="search-btn" (click)="toggleSearch()">
+          <mat-icon>{{ showSearchInput ? 'close' : 'search' }}</mat-icon>
+        </button>
+      </div>
+      <!-- Usuario autenticado -->
+      <button *ngIf="isLoggedIn" mat-button [matMenuTriggerFor]="userMenu" class="user-menu">
+        <img 
+          *ngIf="activeProfile?.urlImageProfile && activeProfile.urlImageProfile.trim()" 
+          [src]="activeProfile.urlImageProfile" 
+          [alt]="activeProfile.nameProfile"
+          class="profile-avatar-header">
+        <mat-icon 
+          *ngIf="!activeProfile?.urlImageProfile || !activeProfile.urlImageProfile.trim()">account_circle</mat-icon>
+        <span class="username">{{ activeProfile?.nameProfile || 'Usuario' }}</span>
+        <mat-icon class="dropdown-icon">keyboard_arrow_down</mat-icon>
+      </button>
+
+      <!-- Usuario no autenticado -->
+      <button *ngIf="!isLoggedIn" mat-button (click)="login()" class="login-btn">
+        <mat-icon>login</mat-icon>
+        <span>{{ translate('header.login') }}</span>
+      </button>
+
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item (click)="goToProfile()">
+          <mat-icon>person</mat-icon>
+          {{ translate('header.profile') }}
+        </button>
+        <button mat-menu-item (click)="changeProfile()">
+          <mat-icon>swap_horiz</mat-icon>
+          {{ translate('header.changeProfile') }}
+        </button>
+        <button mat-menu-item *ngIf="isAdmin()" (click)="goToAdmin()">
+          <mat-icon>admin_panel_settings</mat-icon>
+          {{ translate('header.admin') }}
+        </button>
+        <button mat-menu-item (click)="goToSettings()">
+          <mat-icon>settings</mat-icon>
+          {{ translate('header.settings') }}
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          {{ translate('header.logout') }}
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+
+  <!-- Contenido principal -->
+  <!-- <div class="main-content" [class.movie-detail-page]="isMovieDetailPage">
+    <router-outlet></router-outlet>
+  </div>-->
+</div>
