@@ -13,7 +13,7 @@ import { GenreService } from '../../../core/services/movies/genre.service';
     FormsModule,
     MatButton,
     MatIcon,
-    MatIconButton
+    MatIconButton,
   ],
   templateUrl: './genre-adm.component.html',
   styleUrl: './genre-adm.component.css'
@@ -22,7 +22,7 @@ export class GenreAdmComponent implements OnInit {
   genres: any[] = [];
   filteredGenres: any[] = [];
   searchTerm = '';
-  
+
   currentPage = 0;
   totalPages = 0;
   totalElements = 0;
@@ -86,21 +86,27 @@ export class GenreAdmComponent implements OnInit {
   }
 
   viewGenreDetail(genre: any) {
+    console.log('Opening detail modal for genre:', genre);
     this.selectedGenre = genre;
     this.showDetailModal = true;
+    console.log('showDetailModal set to:', this.showDetailModal);
   }
 
   closeDetailModal() {
+    console.log('Closing detail modal');
     this.showDetailModal = false;
     this.selectedGenre = null;
   }
 
   editGenre(genre: any) {
+    console.log('Opening edit modal for genre:', genre);
     this.editingGenre = { ...genre };
     this.showEditModal = true;
+    console.log('showEditModal set to:', this.showEditModal);
   }
 
   closeEditModal() {
+    console.log('Closing edit modal');
     this.showEditModal = false;
     this.editingGenre = null;
   }
@@ -121,13 +127,16 @@ export class GenreAdmComponent implements OnInit {
   }
 
   openAddDialog() {
+    console.log('Opening add modal');
     this.newGenre = {
       genreName: ''
     };
     this.showAddModal = true;
+    console.log('showAddModal set to:', this.showAddModal);
   }
 
   closeAddModal() {
+    console.log('Closing add modal');
     this.showAddModal = false;
     this.newGenre = {};
   }

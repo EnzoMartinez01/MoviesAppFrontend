@@ -74,10 +74,11 @@
         </button>
       </div>
       
-      <div class="modal-body" *ngIf="selectedGenre">
-        <div class="genre-detail-card">
+      <div class="modal-body">
+        <div class="genre-detail-card" *ngIf="selectedGenre">
           <div class="genre-detail-info">
             <h3>{{ selectedGenre.genreName }}</h3>
+            <p><strong>ID:</strong> {{ selectedGenre.idGenre }}</p>
             <p><strong>Nombre:</strong> {{ selectedGenre.genreName }}</p>
           </div>
         </div>
@@ -104,7 +105,7 @@
       
       <div class="modal-footer">
         <button mat-button (click)="closeEditModal()">Cancelar</button>
-        <button mat-raised-button color="primary" (click)="saveGenre()">Guardar</button>
+        <button mat-raised-button (click)="saveGenre()">Guardar</button>
       </div>
     </div>
   </div>
@@ -122,13 +123,13 @@
       <div class="modal-body">
         <div class="form-row">
           <label>Nombre del Género: *</label>
-          <input [(ngModel)]="newGenre.genreName" class="form-input" required>
+          <input [(ngModel)]="newGenre.genreName" class="form-input" placeholder="Ingrese el nombre del género" required>
         </div>
       </div>
       
       <div class="modal-footer">
         <button mat-button (click)="closeAddModal()">Cancelar</button>
-        <button mat-raised-button color="primary" (click)="addGenre()">Agregar</button>
+        <button mat-raised-button (click)="addGenre()" [disabled]="!newGenre.genreName">Agregar</button>
       </div>
     </div>
   </div>

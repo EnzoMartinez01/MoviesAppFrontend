@@ -153,6 +153,27 @@
   background-color: rgba(178, 2, 2, 0.1);
 }
 
+.login-footer {
+  text-align: center;
+  padding: 20px 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.login-footer p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.register-link {
+  color: #b20202 !important;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 480px) {
   .login-container {
     padding: 10px;

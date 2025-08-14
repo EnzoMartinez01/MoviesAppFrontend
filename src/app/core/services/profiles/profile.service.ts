@@ -35,6 +35,15 @@ export class ProfileService {
     return this.http.get(`${this.baseUrl}/getProfile/${idUser}`, { headers });
   }
 
+  createProfile(payload: { names: string; urlImage?: string }): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    if (!token) throw new Error('Token not found');
+
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+    return this.http.post(`${this.baseUrl}/createProfile`, payload, { headers });
+  }
+
+
   setActiveProfile(profileId: number): void {
     if (profileId !== undefined && profileId !== null) {
       sessionStorage.setItem('activeProfile', profileId.toString());

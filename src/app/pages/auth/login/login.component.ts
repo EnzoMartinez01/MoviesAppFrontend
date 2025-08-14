@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
+import { MatCard, MatCardContent, MatCardHeader, MatCardTitle, MatCardActions } from '@angular/material/card';
 import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 import { AuthenticationService } from '../../../core/services/auth/authentication.service';
 import { ProfileService } from '../../../core/services/profiles/profile.service';
 
@@ -19,12 +20,14 @@ import { ProfileService } from '../../../core/services/profiles/profile.service'
     MatCardContent,
     MatCardHeader,
     MatCardTitle,
+    MatCardActions,
     MatFormField,
     MatLabel,
     MatInput,
     MatButton,
     MatIcon,
-    MatError
+    MatError,
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
