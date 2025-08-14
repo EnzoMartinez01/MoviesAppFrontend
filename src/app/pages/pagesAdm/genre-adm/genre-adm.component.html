@@ -4,7 +4,7 @@
       <span class="breadcrumb-link" (click)="goToAdmin()">Administrativo</span> / Géneros
     </span>
   </div>
-  
+
   <div class="header-section">
     <h1>Gestión de Géneros</h1>
     <button mat-raised-button color="primary" class="add-button" (click)="openAddDialog()">
@@ -16,10 +16,10 @@
   <div class="search-section">
     <div class="search-container">
       <mat-icon class="search-icon">search</mat-icon>
-      <input 
-        type="text" 
-        placeholder="Buscar géneros..." 
-        [(ngModel)]="searchTerm" 
+      <input
+        type="text"
+        placeholder="Buscar géneros..."
+        [(ngModel)]="searchTerm"
         (input)="filterGenres()"
         class="search-input">
     </div>
@@ -47,7 +47,7 @@
         </ng-container>
       </div>
     </div>
-    
+
     <div class="pagination-container">
       <div class="pagination-info">
         <span>Mostrando {{ (currentPage * pageSize) + 1 }} - {{ Math.min((currentPage + 1) * pageSize, totalElements) }} de {{ totalElements }} géneros</span>
@@ -73,7 +73,7 @@
           <mat-icon>close</mat-icon>
         </button>
       </div>
-      
+
       <div class="modal-body">
         <div class="genre-detail-card" *ngIf="selectedGenre">
           <div class="genre-detail-info">
@@ -95,14 +95,14 @@
           <mat-icon>close</mat-icon>
         </button>
       </div>
-      
+
       <div class="modal-body" *ngIf="editingGenre">
         <div class="form-row">
           <label>Nombre del Género:</label>
           <input [(ngModel)]="editingGenre.genreName" class="form-input">
         </div>
       </div>
-      
+
       <div class="modal-footer">
         <button mat-button (click)="closeEditModal()">Cancelar</button>
         <button mat-raised-button (click)="saveGenre()">Guardar</button>
@@ -119,14 +119,14 @@
           <mat-icon>close</mat-icon>
         </button>
       </div>
-      
+
       <div class="modal-body">
         <div class="form-row">
           <label>Nombre del Género: *</label>
-          <input [(ngModel)]="newGenre.genreName" class="form-input" placeholder="Ingrese el nombre del género" required>
+          <input [(ngModel)]="newGenre.name" class="form-input" placeholder="Ingrese el nombre del género" required>
         </div>
       </div>
-      
+
       <div class="modal-footer">
         <button mat-button (click)="closeAddModal()">Cancelar</button>
         <button mat-raised-button (click)="addGenre()" [disabled]="!newGenre.genreName">Agregar</button>

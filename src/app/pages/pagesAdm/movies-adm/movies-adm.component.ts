@@ -150,7 +150,7 @@ export class MoviesAdmComponent implements OnInit {
       genre: !!this.newMovie.genre,
       genreValue: this.newMovie.genre
     });
-    
+
     if (this.newMovie.title?.trim() && this.newMovie.synopsis?.trim() && this.newMovie.genre) {
       const movieData = {
         ...this.newMovie,
@@ -191,7 +191,7 @@ export class MoviesAdmComponent implements OnInit {
         durationInMinutes: this.editingMovie?.duration,
         ranking: this.editingMovie?.pg,
         language: this.editingMovie?.language,
-        genre: this.genres.find(g => g.nameGenre === this.editingMovie?.genreName)?.idGenre || 1,
+        genre: this.genres.find(g => g.nameGenre === this.editingMovie?.genreName)?.id || 1,
         urlMovie: this.editingMovie?.movieUrl,
         urlTrailer: this.editingMovie?.urlTrailer,
         coverImage: this.editingMovie?.movieImage,
