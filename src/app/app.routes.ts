@@ -21,7 +21,12 @@ import {RegisterComponent} from './pages/auth/register/register.component';
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'movie/:idMovie', component: MovieComponent},
+  {
+    path: 'movie/:idMovie',
+    component: MovieComponent,
+    data: {
+      renderMode: 'client'
+    }},
   { path: 'movies', component: MoviesComponent},
   { path: 'search', component: SearchComponent},
   { path: 'login', component: LoginComponent},
